@@ -1,0 +1,130 @@
+-- Table # 1
+
+Create table countries(
+    CountryId INT not null primary key,
+    TopCountries varchar(50) not null,
+    Population2016 varchar(50) not null,
+    Population2019 VARCHAR (50) not null,
+    2019GDPperCapita Varchar(50) not null,
+    PerCapitaRank INT null
+);
+
+select * from countries;
+drop table countries;
+
+--- Entry into table # 1
+insert into countries (CountryId, TopCountries, Population2016, Population2019, 2019GDPperCapita, PerCapitaRank)
+values (1,'China','1,403,500,365','1,389,618,778','$10,946',72),
+       (2,'India','1,324,171,354','1,311,559,204','$2,305',145),
+       (3,'United States','322,179,605','331,883,986','$65,058',8),
+       (4,'Indonesia','261,115,456','264,935,824','$4,277',121),
+       (5,'Pakistan','193,203,476','210,797,836','$1,381',156),
+       (6,'Brazil','207,652,865','210,301,591','$51,195',75),
+       (7,'Nigeria','185,989,640','208,679,114','$2,366',142),
+       (8,'Bangladesh','162,951,560','161,062,905','$1,861',149),
+       (9,'Russia','143,964,513','141,944,641','12,191',68),
+       (10,'Mexico','127,540,423','127,318,112','$9,711',73),
+       (11,'World','7,466,964,280','7,714,576,923','$17,600', null);
+
+
+---Table # 2
+
+create table Metrics (
+    CountryId INT not null primary key,
+    Homicide_Rate INT null,
+    Suicide_Rate INT null,
+    Growth_rateBy2016_2019 varchar (20) not null,
+    Male_Pop varchar(50) not null,
+    Female_Pop Varchar (50) not null
+);
+
+-- Table options for selecting it and dropping it
+Select * from Metrics;
+drop table Metrics;
+
+insert into Metrics (CountryId, Homicide_Rate, Suicide_Rate, Growth_rateBy2016_2019, Male_Pop, Female_Pop)
+values (1,1,22.23,'(0.99) %','715,653,671','673,965,107'),
+       (2,3.4,10.5,'(0.95) %','679,387,668','632,171,536'),
+       (3,4.8,12,'3.01 %','162,623,153','169,260,833'),
+       (4,NULL,2.9,'1.46 %','133,262,719','131,673,105'),
+       (6,26.7,6 ,'9.11 %','108,350,088','102,447,748'),
+       (7,26.7,6,'1.28 %','103,258,081','107,043,510'),
+       (8,2.8,NULL ,'(1.16) %','81,175,704','79,887,201'),
+       (9,10.2,21.4,'(1.40) %','65,294,535','76,650,106'),
+       (10,22.7,4,'(0.17) %','63,404,420','63,913,692'),
+       (11,NULL,NULL,'3.32 %','3,892,004,058','3,822,572,865');
+
+
+
+--- Using an Inner Join. Inner Join evaluates the relationship between the table # 1 and table 2 and the common data is displayed
+
+select C.CountryId, C.TopCountries, C.population2016, C.population2019, C.2019GDPperCapita, C.PerCapitaRank,
+M.Homicide_Rate, M.Suicide_Rate, M.Growth_rateBy2016_2019, M.Male_Pop,
+M.Female_Pop from countries As C
+inner join Metrics As M
+On C.CountryId = M.CountryId;
+
+--- Using left Join displays data that matches to the left table(Countries) and returns matches. if no match is found, NUll is rendered.
+select C.CountryId, C.TopCountries, C.population2016, C.population2019, C.2019GDPperCapita, C.PerCapitaRank,
+M.Homicide_Rate, M.Suicide_Rate, M.Growth_rateBy2016_2019, M.Male_Pop,
+M.Female_Pop from countries As C
+left join Metrics As M
+On C.CountryId = M.CountryId;
+
+--- Using right Join displays data that matches to the right table(Metrics) and returns matches. if no match is found, NUll is rendered.
+select C.CountryId, C.TopCountries, C.population2016, C.population2019, C.2019GDPperCapita, C.PerCapitaRank,
+M.Homicide_Rate, M.Suicide_Rate, M.Growth_rateBy2016_2019, M.Male_Pop,
+M.Female_Pop from countries As C
+right join Metrics As M
+On C.CountryId = M.CountryId;
+
+
+---Table # 3
+
+Create table TestCase(
+    TestId INT primary key,
+    TopCountries varchar(50) not null
+
+);
+
+select * from TestCase;
+drop table TestCase;
+
+--- Entry into table # 3
+insert into TestCase(TestId, TopCountries)
+values (1,'China'),
+       (2,'India'),
+       (3,'United States');
+
+ --- Table # 4
+ Create table TestCase2(
+    TestIdd INT primary Key,
+    TopCountries varchar(30) not null
+);
+
+select * from TestCase2;
+drop table TestCase2;
+
+--- Entry into Table # 4
+insert into TestCase2 (TestIdd, TopCountries)
+values (1,'China'),
+       (2,'India'),
+       (4,'United States');
+
+
+--- Using union to render values from the table #3 (TestCase) and table #4 but does not return duplicate values. Columns must match for this to work.
+
+Select * from TestCase
+
+union
+
+Select * from TestCase2;
+
+
+--- Using union all render values from the table #3 (TestCase) and table #4 but returns duplicate values. Columns must match for this to work.
+
+Select * from TestCase
+
+union all
+
+Select * from TestCase2;
